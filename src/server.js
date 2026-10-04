@@ -6,11 +6,20 @@ const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
 //handles incoming requests and routes them to the correct endpoint
 const onRequest = (request, response) => {
-    const parsedUrl = url.parse(request.url);
+    const parsedUrl = url.parse(request.url, true);
 
     switch (parsedUrl.pathname) {
         case '/getBooks':
             responses.getBooks(request, response);
+            break;
+        case '/getBook':
+            responses.getBook(request, response, parsedUrl.query);
+            break;
+        case '/getBooksByAuthor':
+            responses.getBooksByAuthor(request, response, parsedUrl.query);
+            break;
+        case '/getBooksByGenre':
+            responses.getBooksByGenre(request, response, parsedUrl.query);
             break;
         default:
             response.writeHead(404);

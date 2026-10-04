@@ -43,10 +43,102 @@ const getBooks = (request, response) => {
     respondJSON(request, response, 200, responseJSON);
 };
 
+// Returns a specific book based on its title
+const getBook = (request, response, params) => {
+    const responseJSON = {};
 
+    if (!params.title) {
+        responseJSON.message = 'A title parameter is required.';
+        respondJSON(request, response, 400, responseJSON);
+        return;
+    }
+
+    const book = books.find(
+        (item) => item.title.toLowerCase() === params.title.toLowerCase(),
+    );
+
+    if (!book) {
+        responseJSON.message = 'Book not found.';
+        respondJSON(request, response, 404, responseJSON);
+        return;
+    }
+
+    responseJSON.book = book;
+
+    if (request.method === 'HEAD') {
+        respondJSONMeta(request, response, 200);
+        return;
+    }
+
+    respondJSON(request, response, 200, responseJSON);
+};
+
+// Returns all books written by a specific author
+const getBooksByAuthor = (request, response, params) => {
+    const responseJSON = {};
+
+    if (!params.author) {
+        responseJSON.message = 'An author parameter is required.';
+        respondJSON(request, response, 400, responseJSON);
+        return;
+    }
+
+    const matchingBooks = books.filter(
+        (book) => book.author.toLowerCase() === params.author.toLowerCase(),
+    );
+
+    if (matchingBooks.length === 0) {
+        responseJSON.message = 'No books found for that author.';
+        respondJSON(request, response, 404, responseJSON);
+        return;
+    }
+
+    responseJSON.books = matchingBooks;
+
+    if (request.method === 'HEAD') {
+        respondJSONMeta(request, response, 200);
+        return;
+    }
+
+    respondJSON(request, response, 200, responseJSON);
+};
+
+// Returns all books that match a specific genre
+const getBooksByGenre = (request, response, params) => {
+    const responseJSON = {};
+
+    if (!params.genre) {
+        responseJSON.message = 'A genre parameter is required.';
+        respondJSON(request, response, 400, responseJSON);
+        return;
+    }
+
+    const matchingBooks = books.filter((book) =>
+        book.genres && book.genres.some(
+            (genre) => genre.toLowerCase() === params.genre.toLowerCase(),
+        ));
+
+    if (matchingBooks.length === 0) {
+        responseJSON.message = 'No books found for that genre.';
+        respondJSON(request, response, 404, responseJSON);
+        return;
+    }
+
+    responseJSON.books = matchingBooks;
+
+    if (request.method === 'HEAD') {
+        respondJSONMeta(request, response, 200);
+        return;
+    }
+
+    respondJSON(request, response, 200, responseJSON);
+};
 
 
 
 module.exports = {
     getBooks,
+    getBook,
+    getBooksByAuthor,
+    getBooksByGenre,
 };
