@@ -10,7 +10,7 @@ const onRequest = (request, response) => {
 
     switch (parsedUrl.pathname) {
         case '/getBooks':
-            responses.getBooks(request, response);
+            responses.getBooks(request, response, parsedUrl.query);
             break;
         case '/getBook':
             responses.getBook(request, response, parsedUrl.query);
@@ -20,6 +20,22 @@ const onRequest = (request, response) => {
             break;
         case '/getBooksByGenre':
             responses.getBooksByGenre(request, response, parsedUrl.query);
+            break;
+        case '/addBook':
+            if (request.method === 'POST') {
+                responses.addBook(request, response);
+            } else {
+                response.writeHead(404);
+                response.end();
+            }
+            break;
+        case '/updateBook':
+            if (request.method === 'POST') {
+                responses.updateBook(request, response);
+            } else {
+                response.writeHead(404);
+                response.end();
+            }
             break;
         default:
             response.writeHead(404);
