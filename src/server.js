@@ -25,21 +25,18 @@ const onRequest = (request, response) => {
             if (request.method === 'POST') {
                 responses.addBook(request, response);
             } else {
-                response.writeHead(404);
-                response.end();
+                responses.notFound(request, response);
             }
             break;
         case '/updateBook':
             if (request.method === 'POST') {
                 responses.updateBook(request, response);
             } else {
-                response.writeHead(404);
-                response.end();
+                responses.notFound(request, response);
             }
             break;
         default:
-            response.writeHead(404);
-            response.end();
+            responses.notFound(request, response);
             break;
     }
 };

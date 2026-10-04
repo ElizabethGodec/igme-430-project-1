@@ -35,6 +35,17 @@ const respondJSONMeta = (request, response, status, object) => {
     response.end();
 };
 
+//seends a successful response with no body content
+const respondNoContent = (request, response) => {
+    const headers = {
+        'Content-Type': 'application/json',
+        'Content-Length': 0,
+    };
+
+    response.writeHead(204, headers);
+    response.end();
+};
+
 //collects the body data from a POST request
 const parseBody = (request, callback) => {
     const body = [];
@@ -48,9 +59,12 @@ const parseBody = (request, callback) => {
         const contentType = request.headers['content-type'];
 
         try {
-            if (contentType === 'application/json') {
+            if (contentType && contentType.includes('application/json')) {
                 callback(null, JSON.parse(bodyString));
-            } else if (contentType === 'application/x-www-form-urlencoded') {
+            } else if (
+                contentType
+                && contentType.includes('application/x-www-form-urlencoded')
+            ) {
                 callback(null, querystring.parse(bodyString));
             } else {
                 callback(new Error('Unsupported Content-Type'));
@@ -243,6 +257,19 @@ const updateBook = (request, response) => {
             return;
         }
 
+        const hasUpdates = body.author
+            || body.country
+            || body.language
+            || body.link
+            || body.pages
+            || body.year
+            || body.genres;
+
+        if (!hasUpdates) {
+            respondNoContent(request, response);
+            return;
+        }
+
         if (body.author) book.author = body.author;
         if (body.country) book.country = body.country;
         if (body.language) book.language = body.language;
@@ -258,6 +285,15 @@ const updateBook = (request, response) => {
     });
 };
 
+//returns a 404 response for an invalid endpoint
+const notFound = (request, response) => {
+    const responseJSON = {
+        message: 'The page you are looking for was not found.',
+    };
+
+    respondJSON(request, response, 404, responseJSON);
+};
+
 
 
 
@@ -268,4 +304,5 @@ module.exports = {
     getBooksByGenre,
     addBook,
     updateBook,
+    notFound,
 };
