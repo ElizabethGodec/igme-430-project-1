@@ -45,6 +45,27 @@
             </div>
         </section>
 
+        <!--rand book recommendation section-->
+        <section id="recommend-section">
+            <h2>Not Sure What to Read?</h2>
+            <p>
+                Discover your next great read! Get a random book
+                recommendation, or enter a genre to narrow your choices.
+            </p>
+
+            <form id="recommend-form">
+                <label for="recommend-genre">Preferred Genre (Optional):</label>
+                <input type="text" id="recommend-genre" name="genre"
+                    placeholder="e.g., Romance, Fantasy, Historical Fiction">
+
+                <button type="submit">Recommend Me a Book!</button>
+            </form>
+
+            <div id="recommend-result" aria-live="polite">
+                <p>Your next book recommendation will appear here.</p>
+            </div>
+        </section>
+
         <!--section to add a new book-->
         <section id="add-section">
             <h2>Add a Book</h2>

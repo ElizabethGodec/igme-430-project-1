@@ -202,6 +202,38 @@ const getBooksByGenre = (request, response, params) => {
     respondJSON(request, response, 200, responseJSON);
 };
 
+//re turns a random book but can also be filtered by gfenre
+const getRandomBook = (request, response, params) => {
+    const responseJSON = {};
+    let matchingBooks = books;
+
+    //filters by genre
+    if (params.genre) {
+        matchingBooks = books.filter((book) =>
+            Array.isArray(book.genres) && book.genres.some(
+                (genre) => genre.toLowerCase() === params.genre.toLowerCase(),
+            ));
+    }
+
+    //return an error if no books match the requested genre
+    if (matchingBooks.length === 0) {
+        responseJSON.message = 'No books found for that genre.';
+        respondJSON(request, response, 404, responseJSON);
+        return;
+    }
+
+    //select a random book
+    const randomIndex = Math.floor(Math.random() * matchingBooks.length);
+    responseJSON.book = matchingBooks[randomIndex];
+
+    if (request.method === 'HEAD') {
+        respondJSONMeta(request, response, 200, responseJSON);
+        return;
+    }
+
+    respondJSON(request, response, 200, responseJSON);
+};
+
 //adds a new book to the dataset
 const addBook = (request, response) => {
     parseBody(request, (error, body) => {
@@ -311,6 +343,7 @@ module.exports = {
     getBook,
     getBooksByAuthor,
     getBooksByGenre,
+    getRandomBook,
     addBook,
     updateBook,
     notFound,

@@ -131,31 +131,76 @@ button:hover {
 }
 
 /*book form*/
-#add-book-form, #update-book-form {
+#add-book-form,
+#update-book-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 12px 20px;
     margin-top: 20px;
 }
 
-#add-book-form, #update-book-form label {
+#add-book-form,
+#update-book-form label {
     grid-column: 1 / -1;
     font-weight: bold;
 }
 
-#add-book-form, #update-book-form input {
+#add-book-form,
+#update-book-form input {
     grid-column: 1 / -1;
     width: 100%;
 }
 
-#add-book-form, #update-book-form button {
+#add-book-form,
+#update-book-form button {
     grid-column: 1 / -1;
     margin-top: 10px;
 }
 
-#add-message, #update-message {
+#add-message,
+#update-message {
     margin-top: 15px;
     font-weight: bold;
+}
+
+/*random book rec */
+#recommend-form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+#recommend-form label {
+    width: 100%;
+    font-weight: bold;
+}
+
+#recommend-form input {
+    flex: 1;
+    min-width: 180px;
+}
+
+#recommend-result {
+    margin-top: 20px;
+}
+
+#recommend-result .book-card {
+    max-width: 500px;
+}
+
+/*mobile recommendation*/
+@media (max-width: 600px) {
+    #recommend-form {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    #recommend-form input,
+    #recommend-form button {
+        width: 100%;
+    }
 }
 
 /*footer*/

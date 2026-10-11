@@ -37,6 +37,9 @@ const onRequest = (request, response) => {
         case '/getBooksByGenre':
             responses.getBooksByGenre(request, response, parsedUrl.query);
             break;
+        case '/getRandomBook':
+            responses.getRandomBook(request, response, parsedUrl.query);
+            break;
         case '/addBook':
             if (request.method === 'POST') {
                 responses.addBook(request, response);

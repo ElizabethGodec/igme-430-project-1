@@ -245,3 +245,48 @@ updateBookForm.addEventListener('submit', async (event) => {
         updateMessage.textContent = 'An error occurred while updating the book.';
     }
 });
+
+//random book recommendations
+const recommendForm = document.querySelector('#recommend-form');
+const recommendGenre = document.querySelector('#recommend-genre');
+const recommendResult = document.querySelector('#recommend-result');
+
+recommendForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const genre = recommendGenre.value.trim();
+
+    //starting with the random book endpoint
+    let endpoint = '/getRandomBook';
+
+    //optional genre filter
+    if (genre) {
+        endpoint += `?genre=${encodeURIComponent(genre)}`;
+    }
+
+    recommendResult.textContent = 'Finding your next read...';
+
+    try {
+        const response = await fetch(endpoint, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+            },
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            recommendResult.textContent =
+                data.message || 'Unable to find a recommendation.';
+            return;
+        }
+
+        //display the recommended book using our existing card function
+        recommendResult.innerHTML = '';
+        recommendResult.appendChild(createBookCard(data.book));
+    } catch (error) {
+        recommendResult.textContent =
+            'An error occurred while finding a recommendation.';
+    }
+});
