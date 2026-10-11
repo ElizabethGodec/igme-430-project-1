@@ -75,6 +75,15 @@ const parseBody = (request, callback) => {
     });
 };
 
+//converts genre input into an array for consistent storage
+const formatGenres = (genres) => {
+  if (!genres) return [];
+
+  if (Array.isArray(genres)) return genres;
+
+  return genres.split(',').map((genre) => genre.trim());
+};
+
 //returns all books in the dataset. added an optional result limit
 const getBooks = (request, response, params) => {
     const responseJSON = {};
@@ -218,7 +227,7 @@ const addBook = (request, response) => {
             pages: Number(body.pages) || 0,
             title: body.title,
             year: Number(body.year) || 0,
-            genres: body.genres || [],
+            genres: formatGenres(body.genres),
         };
 
         books.push(newBook);
@@ -276,7 +285,7 @@ const updateBook = (request, response) => {
         if (body.link) book.link = body.link;
         if (body.pages) book.pages = Number(body.pages);
         if (body.year) book.year = Number(body.year);
-        if (body.genres) book.genres = body.genres;
+        if (body.genres) book.genres = formatGenres(body.genres);
 
         responseJSON.message = 'Book updated successfully.';
         responseJSON.book = book;
