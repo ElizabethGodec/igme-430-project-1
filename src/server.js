@@ -1,6 +1,7 @@
 const http = require('http');
 const url = require('url');
 const responses = require('./responses.js');
+const staticResponses = require('./staticResponses.js');
 
 const port = process.env.PORT || process.env.NODE_PORT || 3000;
 
@@ -9,6 +10,21 @@ const onRequest = (request, response) => {
     const parsedUrl = url.parse(request.url, true);
 
     switch (parsedUrl.pathname) {
+        case '/':
+        case '/index.html':
+            staticResponses.serveFile(request, response, 'index.html', 'text/html');
+            break;
+        case '/style.css':
+            staticResponses.serveFile(request, response, 'style.css', 'text/css');
+            break;
+        case '/client.js':
+            staticResponses.serveFile(
+                request,
+                response,
+                'client.js',
+                'text/javascript',
+            );
+            break;
         case '/getBooks':
             responses.getBooks(request, response, parsedUrl.query);
             break;

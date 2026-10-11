@@ -77,11 +77,11 @@ const parseBody = (request, callback) => {
 
 //converts genre input into an array for consistent storage
 const formatGenres = (genres) => {
-  if (!genres) return [];
+    if (!genres) return [];
 
-  if (Array.isArray(genres)) return genres;
+    if (Array.isArray(genres)) return genres;
 
-  return genres.split(',').map((genre) => genre.trim());
+    return genres.split(',').map((genre) => genre.trim());
 };
 
 //returns all books in the dataset. added an optional result limit

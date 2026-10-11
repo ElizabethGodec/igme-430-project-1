@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookShelf | Books API</title>
+    <link rel="stylesheet" href="/style.css">
+    <script src="/client.js" defer></script>
+</head>
+
+<body>
+    <header>
+        <h1>BookShelf</h1>
+        <p>Explore books from around the world</p>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/docs.html">API Documentation</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="browse-section">
+            <h2>Browse Books</h2>
+            <p>Discover books by title, author, or genre.</p>
+
+            <form id="search-form">
+                <label for="search-type">Search By:</label>
+                <select id="search-type" name="search-type">
+                    <option value="all">All Books</option>
+                    <option value="title">Title</option>
+                    <option value="author">Author</option>
+                    <option value="genre">Genre</option>
+                </select>
+
+                <label for="search-input">Search:</label>
+                <input type="text" id="search-input" name="search-input" placeholder="Enter a title, author, or genre">
+
+                <button type="submit">Search Books</button>
+            </form>
+
+            <div id="results">
+                <p>Book results will appear here.</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>BookShelf | IGME 430 Project 1</p>
+    </footer>
+</body>
+
+</html>
