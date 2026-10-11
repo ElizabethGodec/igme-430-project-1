@@ -231,3 +231,47 @@ footer {
         padding: 20px;
     }
 }
+
+/* API documentation */
+.endpoint {
+  margin-top: 25px;
+  padding: 20px;
+  background-color: #f8f6f0;
+  border-radius: 8px;
+}
+
+.endpoint h3 {
+  color: #254b3c;
+}
+
+.endpoint h4 {
+  margin-top: 20px;
+}
+
+.endpoint code {
+  font-family: Consolas, monospace;
+}
+
+.endpoint pre {
+  padding: 15px;
+  background-color: #e8eee9;
+  border-radius: 6px;
+  overflow-x: auto;
+}
+
+.endpoint table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.endpoint th,
+.endpoint td {
+  padding: 10px;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+.endpoint th {
+  background-color: #e8eee9;
+}

@@ -14,6 +14,9 @@ const onRequest = (request, response) => {
         case '/index.html':
             staticResponses.serveFile(request, response, 'index.html', 'text/html');
             break;
+        case '/docs.html':
+            staticResponses.serveFile(request, response, 'docs.html', 'text/html');
+            break;
         case '/style.css':
             staticResponses.serveFile(request, response, 'style.css', 'text/css');
             break;

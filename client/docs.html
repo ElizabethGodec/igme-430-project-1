@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>API Documentation | BookShelf</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+
+<body>
+    <header>
+        <h1>BookShelf API Documentation</h1>
+        <p>Learn how to access and interact with the BookShelf API.</p>
+
+        <nav>
+            <a href="/">Home</a>
+            <a href="/docs.html">API Documentation</a>
+        </nav>
+    </header>
+
+    <main>
+        <section id="docs-intro">
+            <h2>About the API</h2>
+            <p>
+                The BookShelf API allows users to retrieve, search,
+                add, and update books from a collection of book data.
+                It also provides random book recommendations.
+            </p>
+
+            <p>
+                All API endpoints use relative URLs and return JSON
+                responses. GET endpoints also support HEAD requests.
+                POST endpoints accept JSON and URL encoded form data.
+            </p>
+        </section>
+
+        <section id="docs-get">
+            <h2>GET Endpoints</h2>
+            <p>
+                Use these endpoints to retrieve books and recommendations.
+            </p>
+
+            <article class="endpoint">
+                <h3>1. Get Books</h3>
+
+                <p>
+                    Retrieves books from the collection. An optional limit
+                    parameter controls the maximum number of books returned.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/getBooks</code></p>
+                <p><strong>Methods:</strong> GET, HEAD</p>
+                <p><strong>Response Format:</strong> JSON</p>
+
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>limit</td>
+                            <td>Number</td>
+                            <td>No</td>
+                            <td>Maximum number of books to return.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Body</h4>
+                <p>None required.</p>
+
+                <h4>Example Request</h4>
+                <pre><code>GET /getBooks?limit=2</code></pre>
+
+                <h4>Example Response (200 OK)</h4>
+                <pre><code>{
+  "books": [
+    {
+      "title": "Book Title",
+      "author": "Author Name",
+      "genres": ["Fiction"]
+    },
+    {
+      "title": "Another Book",
+      "author": "Another Author",
+      "genres": ["Adventure"]
+    }
+  ]
+}</code></pre>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    200 OK — Books retrieved successfully.<br>
+                    400 Bad Request — Invalid limit parameter.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> HEAD requests return the same
+                    response headers as GET, but without a response body.
+                </p>
+            </article>
+            <article class="endpoint">
+                <h3>2. Get Book by Title</h3>
+
+                <p>
+                    Retrieves a specific book from the collection using
+                    its title. The title search is case-insensitive.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/getBook</code></p>
+                <p><strong>Methods:</strong> GET, HEAD</p>
+                <p><strong>Response Format:</strong> JSON</p>
+
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>title</td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Title of the book to retrieve.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Body</h4>
+                <p>None required.</p>
+
+                <h4>Example Request</h4>
+                <pre><code>GET /getBook?title=Pride%20and%20Prejudice</code></pre>
+
+                <h4>Example Response (200 OK)</h4>
+                <pre><code>{
+  "book": {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "country": "United Kingdom",
+    "language": "English",
+    "pages": 226,
+    "year": 1813,
+    "genres": ["Romance"]
+  }
+}</code></pre>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    200 OK — Book retrieved successfully.<br>
+                    400 Bad Request — Missing title parameter.<br>
+                    404 Not Found — No matching book exists.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> HEAD requests return response
+                    headers without a response body.
+                </p>
+            </article>
+
+            <article class="endpoint">
+                <h3>3. Get Books by Author</h3>
+
+                <p>
+                    Retrieves all books written by a specified author.
+                    The author search is case-insensitive.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/getBooksByAuthor</code></p>
+                <p><strong>Methods:</strong> GET, HEAD</p>
+                <p><strong>Response Format:</strong> JSON</p>
+
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>author</td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Name of the author to search for.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Body</h4>
+                <p>None required.</p>
+
+                <h4>Example Request</h4>
+                <pre><code>GET /getBooksByAuthor?author=Jane%20Austen</code></pre>
+
+                <h4>Example Response (200 OK)</h4>
+                <pre><code>{
+  "books": [
+    {
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "genres": ["Romance"]
+    },
+    {
+      "title": "Emma",
+      "author": "Jane Austen",
+      "genres": ["Romance"]
+    }
+  ]
+}</code></pre>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    200 OK — Matching books retrieved successfully.<br>
+                    400 Bad Request — Missing author parameter.<br>
+                    404 Not Found — No books found for that author.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> HEAD requests return response
+                    headers without a response body.
+                </p>
+            </article>
+
+            <article class="endpoint">
+                <h3>4. Get Books by Genre</h3>
+
+                <p>
+                    Retrieves all books belonging to a specified genre.
+                    The genre search is case-insensitive.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/getBooksByGenre</code></p>
+                <p><strong>Methods:</strong> GET, HEAD</p>
+                <p><strong>Response Format:</strong> JSON</p>
+
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>genre</td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Genre to search for, such as Romance or Fantasy.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Body</h4>
+                <p>None required.</p>
+
+                <h4>Example Request</h4>
+                <pre><code>GET /getBooksByGenre?genre=Romance</code></pre>
+
+                <h4>Example Response (200 OK)</h4>
+                <pre><code>{
+  "books": [
+    {
+      "title": "Pride and Prejudice",
+      "author": "Jane Austen",
+      "genres": ["Romance"]
+    },
+    {
+      "title": "Example Romance Novel",
+      "author": "Example Author",
+      "genres": ["Romance", "Fiction"]
+    }
+  ]
+}</code></pre>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    200 OK — Matching books retrieved successfully.<br>
+                    400 Bad Request — Missing genre parameter.<br>
+                    404 Not Found — No books found for that genre.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> HEAD requests return response
+                    headers without a response body.
+                </p>
+            </article>
+
+            <article class="endpoint">
+                <h3>5. Get Random Book Recommendation</h3>
+
+                <p>
+                    Retrieves a randomly selected book from the collection.
+                    Users can optionally specify a genre to receive a
+                    recommendation from that category.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/getRandomBook</code></p>
+                <p><strong>Methods:</strong> GET, HEAD</p>
+                <p><strong>Response Format:</strong> JSON</p>
+
+                <h4>Query Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>genre</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>
+                                Limits the random recommendation to books
+                                belonging to the specified genre.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Request Body</h4>
+                <p>None required.</p>
+
+                <h4>Example Requests</h4>
+                <pre><code>GET /getRandomBook
+
+GET /getRandomBook?genre=Romance</code></pre>
+
+                <h4>Example Response (200 OK)</h4>
+                <pre><code>{
+  "book": {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "country": "United Kingdom",
+    "language": "English",
+    "pages": 226,
+    "year": 1813,
+    "genres": ["Romance"]
+  }
+}</code></pre>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    200 OK — Random book retrieved successfully.<br>
+                    404 Not Found — No books match the specified genre.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> HEAD requests return response
+                    headers without a response body.
+                </p>
+            </article>
+        </section>
+
+        <section id="docs-post">
+            <h2>POST Endpoints</h2>
+            <p>
+                Use these endpoints to add or update books in the collection.
+            </p>
+
+            <article class="endpoint">
+                <h3>6. Add a Book</h3>
+
+                <p>
+                    Adds a new book to the collection. A title and author
+                    are required, while additional book details are optional.
+                    Newly added books are stored in memory and will not
+                    persist after the server restarts.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/addBook</code></p>
+                <p><strong>Method:</strong> POST</p>
+                <p><strong>Response Format:</strong> JSON</p>
+
+                <h4>Query Parameters</h4>
+                <p>None required.</p>
+
+                <h4>Request Body Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>title</td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Title of the new book.</td>
+                        </tr>
+                        <tr>
+                            <td>author</td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Author of the book.</td>
+                        </tr>
+                        <tr>
+                            <td>country</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Country associated with the book.</td>
+                        </tr>
+                        <tr>
+                            <td>language</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Language of the book.</td>
+                        </tr>
+                        <tr>
+                            <td>link</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Optional link to additional information.</td>
+                        </tr>
+                        <tr>
+                            <td>pages</td>
+                            <td>Number</td>
+                            <td>No</td>
+                            <td>Number of pages.</td>
+                        </tr>
+                        <tr>
+                            <td>year</td>
+                            <td>Number</td>
+                            <td>No</td>
+                            <td>Year the book was published.</td>
+                        </tr>
+                        <tr>
+                            <td>genres</td>
+                            <td>Array or String</td>
+                            <td>No</td>
+                            <td>
+                                Book genres. Use an array for JSON requests
+                                or a comma-separated string for form submissions.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Supported Content Types</h4>
+                <p>
+                    <code>application/json</code> and
+                    <code>application/x-www-form-urlencoded</code>
+                </p>
+
+                <h4>Example Request</h4>
+                <pre><code>POST /addBook
+Content-Type: application/json
+
+{
+  "title": "The Secret Garden",
+  "author": "Frances Hodgson Burnett",
+  "country": "United Kingdom",
+  "language": "English",
+  "pages": 375,
+  "year": 1911,
+  "genres": ["Fiction", "Children's Literature"]
+}</code></pre>
+
+                <h4>Example Response (201 Created)</h4>
+                <pre><code>{
+  "message": "Book added successfully.",
+  "book": {
+    "title": "The Secret Garden",
+    "author": "Frances Hodgson Burnett",
+    "country": "United Kingdom",
+    "language": "English",
+    "pages": 375,
+    "year": 1911,
+    "genres": ["Fiction", "Children's Literature"]
+  }
+}</code></pre>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    201 Created — Book added successfully.<br>
+                    400 Bad Request — Missing required fields, invalid JSON,
+                    or unsupported request content type.
+                </p>
+            </article>
+
+            <article class="endpoint">
+                <h3>7. Update a Book</h3>
+
+                <p>
+                    Updates an existing book in the collection using its title.
+                    The title is required to identify the book, while all
+                    other fields are optional. Changes are stored in memory
+                    and will not persist after the server restarts.
+                </p>
+
+                <p><strong>Endpoint:</strong> <code>/updateBook</code></p>
+                <p><strong>Method:</strong> POST</p>
+                <p><strong>Response Format:</strong> JSON (except 204 responses)</p>
+
+                <h4>Query Parameters</h4>
+                <p>None required.</p>
+
+                <h4>Request Body Parameters</h4>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Parameter</th>
+                            <th>Type</th>
+                            <th>Required?</th>
+                            <th>Description</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>title</td>
+                            <td>String</td>
+                            <td>Yes</td>
+                            <td>Title of the existing book to update.</td>
+                        </tr>
+                        <tr>
+                            <td>author</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Updated author name.</td>
+                        </tr>
+                        <tr>
+                            <td>country</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Updated country.</td>
+                        </tr>
+                        <tr>
+                            <td>language</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Updated language.</td>
+                        </tr>
+                        <tr>
+                            <td>link</td>
+                            <td>String</td>
+                            <td>No</td>
+                            <td>Updated information link.</td>
+                        </tr>
+                        <tr>
+                            <td>pages</td>
+                            <td>Number</td>
+                            <td>No</td>
+                            <td>Updated page count.</td>
+                        </tr>
+                        <tr>
+                            <td>year</td>
+                            <td>Number</td>
+                            <td>No</td>
+                            <td>Updated publication year.</td>
+                        </tr>
+                        <tr>
+                            <td>genres</td>
+                            <td>Array or String</td>
+                            <td>No</td>
+                            <td>
+                                Updated genres. Use an array for JSON requests
+                                or a comma-separated string for form submissions.
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h4>Supported Content Types</h4>
+                <p>
+                    <code>application/json</code> and
+                    <code>application/x-www-form-urlencoded</code>
+                </p>
+
+                <h4>Example Request</h4>
+                <pre><code>POST /updateBook
+Content-Type: application/json
+
+{
+  "title": "Pride and Prejudice",
+  "pages": 300,
+  "genres": ["Romance", "Classic"]
+}</code></pre>
+
+                <h4>Example Response (200 OK)</h4>
+                <pre><code>{
+  "message": "Book updated successfully.",
+  "book": {
+    "title": "Pride and Prejudice",
+    "author": "Jane Austen",
+    "pages": 300,
+    "genres": ["Romance", "Classic"]
+  }
+}</code></pre>
+
+                <p>
+                    The response above is abbreviated. The actual API
+                    returns the complete updated book object.
+                </p>
+
+                <h4>Possible Status Codes</h4>
+                <p>
+                    200 OK — Book updated successfully.<br>
+                    204 No Content — No update fields were provided.<br>
+                    400 Bad Request — Missing title, invalid JSON,
+                    or unsupported request content type.<br>
+                    404 Not Found — No book matches the provided title.
+                </p>
+
+                <p>
+                    <strong>Note:</strong> A 204 response has no response body.
+                </p>
+            </article>
+        </section>
+    </main>
+
+    <footer>
+        <p>BookShelf | IGME 430 Project 1</p>
+    </footer>
+</body>
+
+</html>
