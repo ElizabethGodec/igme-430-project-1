@@ -116,3 +116,132 @@ searchForm.addEventListener('submit', (event) => {
 
     fetchBooks(endpoint);
 });
+
+//adding a new book through the API
+const addBookForm = document.querySelector('#add-book-form');
+const addMessage = document.querySelector('#add-message');
+
+addBookForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    //collects values
+    const formData = new FormData(addBookForm);
+    const bookData = Object.fromEntries(formData.entries());
+
+    //converts number fields to numebrs
+    bookData.pages = Number(bookData.pages) || 0;
+    bookData.year = Number(bookData.year) || 0;
+
+    //converts comma separated genres into an array
+    bookData.genres = bookData.genres
+        .split(',')
+        .map((genre) => genre.trim())
+        .filter((genre) => genre !== '');
+
+    addMessage.textContent = 'Adding book...';
+
+    try {
+        const response = await fetch('/addBook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(bookData),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            addMessage.textContent = data.message || 'Unable to add book.';
+            return;
+        }
+
+        addMessage.textContent = data.message;
+        addBookForm.reset();
+
+        //refresh dispaly
+        fetchBooks('/getBooks?limit=12');
+    } catch (error) {
+        addMessage.textContent = 'An error occurred while adding the book.';
+    }
+});
+
+// update an existing book
+const updateBookForm = document.querySelector('#update-book-form');
+const updateMessage = document.querySelector('#update-message');
+
+updateBookForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    //collect the form values
+    const formData = new FormData(updateBookForm);
+    const bookData = Object.fromEntries(formData.entries());
+
+    //remove empty fields
+    Object.keys(bookData).forEach((key) => {
+        if (typeof bookData[key] === 'string') {
+            bookData[key] = bookData[key].trim();
+        }
+
+        if (bookData[key] === '') {
+            delete bookData[key];
+        }
+    });
+
+    //make sure a title was provided
+    if (!bookData.title) {
+        updateMessage.textContent = 'Please enter a book title.';
+        return;
+    }
+
+    //convert to the correct formats
+    if (bookData.pages !== undefined) {
+        bookData.pages = Number(bookData.pages);
+    }
+
+    if (bookData.year !== undefined) {
+        bookData.year = Number(bookData.year);
+    }
+
+    if (bookData.genres !== undefined) {
+        bookData.genres = bookData.genres
+            .split(',')
+            .map((genre) => genre.trim())
+            .filter((genre) => genre !== '');
+    }
+
+    updateMessage.textContent = 'Updating book...';
+
+    try {
+        const response = await fetch('/updateBook', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Accept: 'application/json',
+            },
+            body: JSON.stringify(bookData),
+        });
+
+        //204 response
+        if (response.status === 204) {
+            updateMessage.textContent = 'No changes were provided.';
+            return;
+        }
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            updateMessage.textContent = data.message || 'Unable to update book.';
+            return;
+        }
+
+        updateMessage.textContent = data.message;
+        updateBookForm.reset();
+
+        //refresh
+        fetchBooks('/getBooks?limit=12');
+    } catch (error) {
+        updateMessage.textContent = 'An error occurred while updating the book.';
+    }
+});

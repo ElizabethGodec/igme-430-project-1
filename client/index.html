@@ -44,6 +44,75 @@
                 <p>Book results will appear here.</p>
             </div>
         </section>
+
+        <!--section to add a new book-->
+        <section id="add-section">
+            <h2>Add a Book</h2>
+            <p>Contribute a new book to the collection.</p>
+
+            <form id="add-book-form">
+                <label for="add-title">Book Title:</label>
+                <input type="text" id="add-title" name="title" required>
+
+                <label for="add-author">Author:</label>
+                <input type="text" id="add-author" name="author" required>
+
+                <label for="add-country">Country:</label>
+                <input type="text" id="add-country" name="country">
+
+                <label for="add-language">Language:</label>
+                <input type="text" id="add-language" name="language">
+
+                <label for="add-pages">Pages:</label>
+                <input type="number" id="add-pages" name="pages" min="0">
+
+                <label for="add-year">Publication Year:</label>
+                <input type="number" id="add-year" name="year">
+
+                <label for="add-genres">Genres:</label>
+                <input type="text" id="add-genres" name="genres" placeholder="Fiction, Romance, Adventure">
+
+                <button type="submit">Add Book</button>
+            </form>
+
+            <p id="add-message" role="status" aria-live="polite"></p>
+        </section>
+
+        <!--update an existing book-->
+        <section id="update-section">
+            <h2>Update a Book</h2>
+            <p>
+                Enter the exact title of an existing book and fill in
+                only the fields you want to change.
+            </p>
+
+            <form id="update-book-form">
+                <label for="update-title">Book Title (Required):</label>
+                <input type="text" id="update-title" name="title" required>
+
+                <label for="update-author">New Author:</label>
+                <input type="text" id="update-author" name="author">
+
+                <label for="update-country">New Country:</label>
+                <input type="text" id="update-country" name="country">
+
+                <label for="update-language">New Language:</label>
+                <input type="text" id="update-language" name="language">
+
+                <label for="update-pages">New Page Count:</label>
+                <input type="number" id="update-pages" name="pages" min="0">
+
+                <label for="update-year">New Publication Year:</label>
+                <input type="number" id="update-year" name="year">
+
+                <label for="update-genres">New Genres:</label>
+                <input type="text" id="update-genres" name="genres" placeholder="Fiction, Romance, Adventure">
+
+                <button type="submit">Update Book</button>
+            </form>
+
+            <p id="update-message" role="status" aria-live="polite"></p>
+        </section>
     </main>
 
     <footer>
