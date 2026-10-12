@@ -18,7 +18,12 @@ const respondJSON = (request, response, status, object) => {
     };
 
     response.writeHead(status, headers);
-    response.write(content);
+
+    // HEAD requests should not include a response body
+    if (request.method !== 'HEAD') {
+        response.write(content);
+    }
+
     response.end();
 };
 
