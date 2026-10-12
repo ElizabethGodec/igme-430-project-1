@@ -29,32 +29,56 @@ const onRequest = (request, response) => {
             );
             break;
         case '/getBooks':
-            responses.getBooks(request, response, parsedUrl.query);
+            if (request.method === 'GET' || request.method === 'HEAD') {
+                responses.getBooks(request, response, parsedUrl.query);
+            } else {
+                responses.methodNotAllowed(request, response, 'GET, HEAD');
+            }
             break;
         case '/getBook':
-            responses.getBook(request, response, parsedUrl.query);
+            if (request.method === 'GET' || request.method === 'HEAD') {
+                responses.getBook(request, response, parsedUrl.query);
+            } else {
+                responses.methodNotAllowed(request, response, 'GET, HEAD');
+            }
             break;
+
         case '/getBooksByAuthor':
-            responses.getBooksByAuthor(request, response, parsedUrl.query);
+            if (request.method === 'GET' || request.method === 'HEAD') {
+                responses.getBooksByAuthor(request, response, parsedUrl.query);
+            } else {
+                responses.methodNotAllowed(request, response, 'GET, HEAD');
+            }
             break;
+
         case '/getBooksByGenre':
-            responses.getBooksByGenre(request, response, parsedUrl.query);
+            if (request.method === 'GET' || request.method === 'HEAD') {
+                responses.getBooksByGenre(request, response, parsedUrl.query);
+            } else {
+                responses.methodNotAllowed(request, response, 'GET, HEAD');
+            }
             break;
+
         case '/getRandomBook':
-            responses.getRandomBook(request, response, parsedUrl.query);
+            if (request.method === 'GET' || request.method === 'HEAD') {
+                responses.getRandomBook(request, response, parsedUrl.query);
+            } else {
+                responses.methodNotAllowed(request, response, 'GET, HEAD');
+            }
             break;
         case '/addBook':
             if (request.method === 'POST') {
                 responses.addBook(request, response);
             } else {
-                responses.notFound(request, response);
+                responses.methodNotAllowed(request, response, 'POST');
             }
             break;
+
         case '/updateBook':
             if (request.method === 'POST') {
                 responses.updateBook(request, response);
             } else {
-                responses.notFound(request, response);
+                responses.methodNotAllowed(request, response, 'POST');
             }
             break;
         default:

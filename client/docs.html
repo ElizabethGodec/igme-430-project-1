@@ -98,7 +98,8 @@
                 <h4>Possible Status Codes</h4>
                 <p>
                     200 OK — Books retrieved successfully.<br>
-                    400 Bad Request — Invalid limit parameter.
+                    400 Bad Request — Invalid limit parameter.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
 
                 <p>
@@ -161,7 +162,8 @@
                 <p>
                     200 OK — Book retrieved successfully.<br>
                     400 Bad Request — Missing title parameter.<br>
-                    404 Not Found — No matching book exists.
+                    404 Not Found — No matching book exists.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
 
                 <p>
@@ -228,7 +230,8 @@
                 <p>
                     200 OK — Matching books retrieved successfully.<br>
                     400 Bad Request — Missing author parameter.<br>
-                    404 Not Found — No books found for that author.
+                    404 Not Found — No books found for that author.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
 
                 <p>
@@ -295,7 +298,8 @@
                 <p>
                     200 OK — Matching books retrieved successfully.<br>
                     400 Bad Request — Missing genre parameter.<br>
-                    404 Not Found — No books found for that genre.
+                    404 Not Found — No books found for that genre.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
 
                 <p>
@@ -364,7 +368,8 @@ GET /getRandomBook?genre=Romance</code></pre>
                 <h4>Possible Status Codes</h4>
                 <p>
                     200 OK — Random book retrieved successfully.<br>
-                    404 Not Found — No books match the specified genre.
+                    404 Not Found — No books match the specified genre.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
 
                 <p>
@@ -500,7 +505,8 @@ Content-Type: application/json
                 <p>
                     201 Created — Book added successfully.<br>
                     400 Bad Request — Missing required fields, invalid JSON,
-                    or unsupported request content type.
+                    or unsupported request content type.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
             </article>
 
@@ -624,7 +630,8 @@ Content-Type: application/json
                     204 No Content — No update fields were provided.<br>
                     400 Bad Request — Missing title, invalid JSON,
                     or unsupported request content type.<br>
-                    404 Not Found — No book matches the provided title.
+                    404 Not Found — No book matches the provided title.<br>
+                    405 Method Not Allowed — Unsupported HTTP method.
                 </p>
 
                 <p>

@@ -302,8 +302,8 @@ const updateBook = (request, response) => {
             || body.country
             || body.language
             || body.link
-            || body.pages
-            || body.year
+            || (body.pages !== undefined && body.pages !== '')
+            || (body.year !== undefined && body.year !== '')
             || body.genres;
 
         if (!hasUpdates) {
@@ -315,8 +315,12 @@ const updateBook = (request, response) => {
         if (body.country) book.country = body.country;
         if (body.language) book.language = body.language;
         if (body.link) book.link = body.link;
-        if (body.pages) book.pages = Number(body.pages);
-        if (body.year) book.year = Number(body.year);
+        if (body.pages !== undefined && body.pages !== '') {
+            book.pages = body.pages;
+        }
+        if (body.year !== undefined && body.year !== '') {
+            book.year = body.year;
+        }
         if (body.genres) book.genres = formatGenres(body.genres);
 
         responseJSON.message = 'Book updated successfully.';
@@ -335,6 +339,27 @@ const notFound = (request, response) => {
     respondJSON(request, response, 404, responseJSON);
 };
 
+//handles requests using an unsupported HTTP method
+const methodNotAllowed = (request, response, allowedMethods) => {
+    const responseJSON = {
+        message: 'Method not allowed for this endpoint.',
+    };
+
+    const responseString = JSON.stringify(responseJSON);
+
+    response.writeHead(405, {
+        'Content-Type': 'application/json',
+        'Content-Length': Buffer.byteLength(responseString),
+        Allow: allowedMethods,
+    });
+
+    if (request.method !== 'HEAD') {
+        response.write(responseString);
+    }
+
+    response.end();
+};
+
 
 
 
@@ -347,4 +372,5 @@ module.exports = {
     addBook,
     updateBook,
     notFound,
+    methodNotAllowed,
 };
